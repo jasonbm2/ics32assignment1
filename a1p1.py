@@ -1,6 +1,15 @@
 import sys
 from pathlib import Path
 
+def print_search_or_extension(file_list, input_list):
+    target = ""
+    for i in input_list[2]:
+        if i[0] != "-":
+            target = str(i)
+    for subpath in file_list:
+        if target in str(subpath):
+            print(subpath)
+
 def print_files_recursively(file_list):
     for subpath in file_list:
         if subpath.is_file():
@@ -40,8 +49,13 @@ def list_subpaths(dir_path):
 
 def list_content(input_list):
     dir_path = Path(input_list[1].strip('\"'))
-    if not input_list[2]:
+    if input_list[2] == []:
         print_files(list_subpaths(dir_path))
+    elif "-s" in input_list[2]:
+        print_search_or_extension(list_files(dir_path), input_list)
+    elif "-r" in input_list[2] and "-f" in input_list[2]:
+        recursive_list = list_recursively(dir_path, input_list)
+        print_files_recursively(recursive_list)
     elif "-r" in input_list[2]:
         recursive_list = list_recursively(dir_path, input_list)
         print_files(recursive_list)
@@ -49,7 +63,6 @@ def list_content(input_list):
         print_files(list_files(dir_path))
     if "-s" in input_list[2]:
         pass
-
 
 
 def find_file_and_extension(flags_set):
@@ -102,6 +115,7 @@ def take_input():
 
 def main():
     input_list = take_input()
+    print(input_list) # AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
     list_content(input_list)
 
 if __name__ == "__main__":
