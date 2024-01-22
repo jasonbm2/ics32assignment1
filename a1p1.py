@@ -51,18 +51,25 @@ def list_content(input_list):
     dir_path = Path(input_list[1].strip('\"'))
     if input_list[2] == []:
         print_files(list_subpaths(dir_path))
-    elif "-s" in input_list[2]:
+    elif "-r" in input_list[2] and "-e" in input_list[2]:               #if -r & -e are entered
+        recursive_list = list_recursively(dir_path, input_list)
+        print_search_or_extension(recursive_list, input_list)
+    elif "-e" in input_list[2]:                                         #if -e is entered
         print_search_or_extension(list_files(dir_path), input_list)
-    elif "-r" in input_list[2] and "-f" in input_list[2]:
+    elif "-r" in input_list[2] and "-s" in input_list[2]:               #if -r & -s are entered
+        recursive_list = list_recursively(dir_path, input_list)
+        print_search_or_extension(recursive_list, input_list)
+    elif "-s" in input_list[2]:                                         #if -s is entered
+        print_search_or_extension(list_files(dir_path), input_list)
+    elif "-r" in input_list[2] and "-f" in input_list[2]:               #if -r & -f are entered
         recursive_list = list_recursively(dir_path, input_list)
         print_files_recursively(recursive_list)
-    elif "-r" in input_list[2]:
+    elif "-r" in input_list[2]:                                         #if just -r is entered
         recursive_list = list_recursively(dir_path, input_list)
         print_files(recursive_list)
-    elif "-f" in input_list[2]:
+    elif "-f" in input_list[2]:                                         #if just -f is entered
         print_files(list_files(dir_path))
-    if "-s" in input_list[2]:
-        pass
+
 
 
 def find_file_and_extension(flags_set):
@@ -115,8 +122,8 @@ def take_input():
 
 def main():
     input_list = take_input()
-    print(input_list) # AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
     list_content(input_list)
+    main()
 
 if __name__ == "__main__":
     main()
