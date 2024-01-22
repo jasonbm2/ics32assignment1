@@ -3,12 +3,12 @@ import sys
 def find_file_and_extension(flags_set):
     file_and_extension = []
     for entry in flags_set:
-        if "." in entry and not entry[0] and not entry[-1]:
+        if "." in entry and entry[0] != "." and entry[-1] != "." and entry[0] != "-":
             file_and_extension.append(entry)
     if len(file_and_extension) == 0:
         file_and_extension.append("")
     for entry in flags_set:
-        if len(entry) > 1 and len(entry) < 5:
+        if len(entry) >= 2 and len(entry) <= 4 and entry.isalpha():
             file_and_extension.append(entry)
     if len(file_and_extension) == 1:
         file_and_extension.append("")
@@ -17,7 +17,7 @@ def find_file_and_extension(flags_set):
 
 def organize_flags(flags_set):
     flags_list = []
-    file_and_extension = file_and_extension(flags_set)
+    file_and_extension = find_file_and_extension(flags_set)
     if "-r" in flags_set:
         flags_list.append("-r")
     if "-f" in flags_set:
@@ -28,6 +28,7 @@ def organize_flags(flags_set):
     elif "-e" in flags_set and len(file_and_extension[1]) > 0:
         flags_list.append("-e")
         flags_list.append(file_and_extension[1])
+    return flags_list
 
 def take_input():
     program_command = input("Enter 'Q' to exit or 'L' to list content of a directory: ")
