@@ -49,7 +49,7 @@ def list_subpaths(dir_path):
 
 def list_content(input_list):
     dir_path = Path(input_list[1].strip('\"'))
-    if input_list[2] == []:
+    if input_list[2] == []:                                             #if no flags are entered
         print_files(list_subpaths(dir_path))
     elif "-r" in input_list[2] and "-e" in input_list[2]:               #if -r & -e are entered
         recursive_list = list_recursively(dir_path, input_list)
