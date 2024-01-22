@@ -1,4 +1,44 @@
 import sys
+from pathlib import Path
+
+def list_recursively(input_list):
+    dir_path = Path(input_list[1].strip('\"'))
+    recursive_list = []
+    if "-f" in input_list:
+        pass
+    else:
+        for subpath in dir_path.iterdir():
+            pass
+
+
+
+def list_files(input_list):
+    dir_path = Path(input_list[1].strip('\"'))
+    subpath_list = []
+    for subpath in dir_path.iterdir():
+        if subpath.is_file():
+            subpath_list.append(subpath)
+    return subpath_list
+
+def list_subpaths(input_list):
+    dir_path = Path(input_list[1].strip('\"'))
+    subpath_list = []
+    for subpath in dir_path.iterdir():
+        subpath_list.append(subpath)
+    return subpath_list
+
+def list_content(input_list):
+    print(input_list)
+    if not input_list[2]:
+        list_subpaths(input_list)
+    if "-r" in input_list[2]:
+        pass
+    if "-f" in input_list[2]:
+        list_files(input_list)
+    if "-s" in input_list[2]:
+        pass
+
+
 
 def find_file_and_extension(flags_set):
     file_and_extension = []
@@ -34,7 +74,7 @@ def take_input():
     program_command = input("Enter 'Q' to exit or 'L' to list content of a directory: ")
     if program_command == "Q":
         sys.exit(0)
-    directory = input("Enter a directory: ")
+    directory = input("Enter a directory: ") #implement exception handling here
     flags_set = set()
     print("Here's a list of options for displaying directory content:\n Type '-r' to output directory content recursively\n Type '-f' to output only files\n Type '-s' followed by a file name to output files with that file name\n Type '-e' followed by a file extension to output files with that file extension\n Do not enter both '-s' and '-e'. If you do, '-s' will take priority.\nType 'done' to finish entering additional flags:")
     flag_input = input()
@@ -50,7 +90,7 @@ def take_input():
 
 def main():
     input_list = take_input()
-    print(input_list)
+    list_content(input_list)
 
 if __name__ == "__main__":
     main()
