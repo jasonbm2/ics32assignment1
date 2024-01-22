@@ -1,36 +1,52 @@
 import sys
 from pathlib import Path
 
+def print_files_recursively(file_list):
+    for subpath in file_list:
+        if subpath.is_file():
+            print(subpath)
+
+def print_files(file_list):
+    for subpath in file_list:
+        print(subpath)
+
 def list_recursively(dir_path, input_list):
     recursive_list = []
     if "-f" in input_list:
-        pass
+        for subpath in dir_path.iterdir():
+            if subpath.is_file():
+                recursive_list.append(subpath)
+            elif subpath.is_dir():
+                recursive_list.extend(list_recursively(subpath, input_list))
     else:
         for subpath in dir_path.iterdir():
-            pass
+            recursive_list.append(subpath)
+            if subpath.is_dir():
+                recursive_list.extend(list_recursively(subpath, input_list))
+    return recursive_list
 
 def list_files(dir_path):
     subpath_list = []
     for subpath in dir_path.iterdir():
         if subpath.is_file():
             subpath_list.append(subpath)
-    print(subpath_list)
+    return subpath_list
 
 def list_subpaths(dir_path):
     subpath_list = []
     for subpath in dir_path.iterdir():
         subpath_list.append(subpath)
-    print(subpath_list)
+    return subpath_list
 
 def list_content(input_list):
     dir_path = Path(input_list[1].strip('\"'))
-    print(input_list)
     if not input_list[2]:
-        list_subpaths(dir_path)
-    if "-r" in input_list[2]:
-        pass
-    if "-f" in input_list[2]:
-        list_files(dir_path)
+        print_files(list_subpaths(dir_path))
+    elif "-r" in input_list[2]:
+        recursive_list = list_recursively(dir_path, input_list)
+        print_files(recursive_list)
+    elif "-f" in input_list[2]:
+        print_files(list_files(dir_path))
     if "-s" in input_list[2]:
         pass
 
