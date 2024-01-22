@@ -1,8 +1,7 @@
 import sys
 from pathlib import Path
 
-def list_recursively(input_list):
-    dir_path = Path(input_list[1].strip('\"'))
+def list_recursively(dir_path, input_list):
     recursive_list = []
     if "-f" in input_list:
         pass
@@ -10,31 +9,28 @@ def list_recursively(input_list):
         for subpath in dir_path.iterdir():
             pass
 
-
-
-def list_files(input_list):
-    dir_path = Path(input_list[1].strip('\"'))
+def list_files(dir_path):
     subpath_list = []
     for subpath in dir_path.iterdir():
         if subpath.is_file():
             subpath_list.append(subpath)
-    return subpath_list
+    print(subpath_list)
 
-def list_subpaths(input_list):
-    dir_path = Path(input_list[1].strip('\"'))
+def list_subpaths(dir_path):
     subpath_list = []
     for subpath in dir_path.iterdir():
         subpath_list.append(subpath)
-    return subpath_list
+    print(subpath_list)
 
 def list_content(input_list):
+    dir_path = Path(input_list[1].strip('\"'))
     print(input_list)
     if not input_list[2]:
-        list_subpaths(input_list)
+        list_subpaths(dir_path)
     if "-r" in input_list[2]:
         pass
     if "-f" in input_list[2]:
-        list_files(input_list)
+        list_files(dir_path)
     if "-s" in input_list[2]:
         pass
 
